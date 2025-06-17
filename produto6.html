@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Difusor de Varetas Alecrim & Lavanda - Sweet Smell</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="Img/Logo Estética Minimalista Dourado e Branco.png" type="image/x-icon">
+    <link href="static/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/produto.css">
+
+    <!-- JavaScript -->
+    <script src="js/carrinho.js"></script>
+    <script src="js/responsivo.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <div>
+                <img src="Img/Logo navbar.png" width="170" height="70" alt="Sweet Smell Logo">
+            </div>
+            <button class="mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div>
+                <ul class="navbar-links">
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="sobre.html">SOBRE</a></li>
+                    <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping fa-xl"></i> <span class="cart-count">0</span></a></li>
+                    <li class="account"><a href="register.html"><i class="fa-solid fa-circle-user fa-xl"></i></a></li>
+                    <li class="account"><a href="fale.html"><i class="fa-solid fa-phone"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="product-page">
+        <div class="container">
+            <div class="product-container">
+                <div class="product-gallery">
+                    <img src="Img/Produtos/Produto 6.jpeg" class="main-image" id="main-product-image">
+                    <div class="thumbnail-container">
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1 class="product-title">Difusor de Varetas Bambu & Hortelã – 250ml</h1>
+                    <div class="product-price">R$ 79,90</div>
+                    <!-- <div class="product-sku">SKU: DVAL250</div> -->
+                    
+                    <p class="product-description">
+                        O difusor de varetas com fragrância de Bambu & Hortelã é perfeito para aromatizar seus ambientes com um aroma relaxante e sofisticado. 
+                        Composto por óleos essenciais naturais, proporciona uma experiência sensorial única que se espalha suavemente pelo ambiente.
+                    </p>
+                    
+                    <div class="quantity-selector">
+                        <label for="quantity">Quantidade:</label>
+                        <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="10">
+                    </div>
+                    
+                    <button class="btn-add-to-cart" id="add-to-cart">
+                        <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+                    </button>
+                    <button class="btn-buy-now" id="buy-now">
+                        Comprar Agora
+                    </button>
+                    
+                    <div class="product-details">
+                        <h3 class="details-title">Detalhes do Produto</h3>
+                        <div class="details-content">
+                            <p>Características principais do difusor de ambiente:</p>
+                            <ul>
+                                <li><strong>Fragrância:</strong> Bambu & Hortelã</li>
+                                <li><strong>Volume:</strong> 250ml</li>
+                                <li><strong>Duração:</strong> Até 1 mês</li>
+                                <li><strong>Tipo:</strong> Difusor de varetas</li>
+                                <li><strong>Material do frasco:</strong> Vidro transparente</li>
+                                <li><strong>Quantidade de varetas:</strong> 10 unidades</li>
+                                <li><strong>Modo de usar:</strong> Inserir as varetas no líquido e virá-las periodicamente</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+
+
+    <script>
+        document.getElementById('add-to-cart').addEventListener('click', function() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const priceText = document.querySelector('.product-price').textContent;
+            
+            const product = {
+                nome: document.querySelector('.product-title').textContent.trim(),
+                preco: parseFloat(priceText.replace('R$', '').replace('.', '').replace(',', '.').trim()),
+                quantidade: isNaN(quantity) ? 1 : quantity,
+                imagem: document.getElementById('main-product-image').src,
+                sku: document.querySelector('.product-sku')?.textContent.replace('SKU:', '').trim() || 'SEM-SKU'
+            };
+        
+            if (adicionarAoCarrinho(product)) {
+                alert('Produto adicionado ao carrinho!');
+            } else {
+                alert('Erro ao adicionar produto ao carrinho');
+            }
+        });
+        </script>
+    
+</body>
+</html>

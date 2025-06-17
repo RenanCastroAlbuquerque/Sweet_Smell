@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fale Conosco | Sweet Smell</title>
+    <link rel="stylesheet" href="css/fale.css">
+    <link rel="shortcut icon" href="Img/Logo Estética Minimalista Dourado e Branco.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <img src="Img/Logo navbar.png" alt="Logo Sweet Smell" width="150">
+        </a>
+        <h1>Fale Conosco</h1>
+        <p class="subtitle">Sua opinião é essencial para nós</p>
+    </header>
+
+    <main>
+        <div class="contact-container">
+            <section class="contact-form">
+                <h2><span class="icon"></span> Envie sua mensagem</h2>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone">Telefone (opcional)</label>
+                        <input type="tel" id="telefone" name="telefone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assunto">Assunto</label>
+                        <select id="assunto" name="assunto" required>
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="duvida">Dúvida sobre produtos</option>
+                            <option value="pedido">Status do pedido</option>
+                            <option value="sugestao">Sugestão</option>
+                            <option value="reclamacao">Reclamação</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem</label>
+                        <textarea id="mensagem" name="mensagem" rows="6" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                </form>
+            </section>
+
+            <section class="contact-info">
+                <h2><span class="icon"></span> Outros contatos</h2>
+                <div class="info-card">
+                    <h3>Atendimento ao cliente</h3>
+                    <p><strong>E-mail:</strong> sweetsmell.sac@gmail.com</p>
+                    <p><strong>Telefone:</strong> (11) 98765-4321</p>
+                    <p><strong>Horário:</strong> Seg-Sex: 9h às 18h</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Redes sociais</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ssweet.smell/" class="social-icon">Instagram</a>
+                        <a href="#" class="social-icon">Facebook</a>
+                        <a href="https://wa.me/5511987654321" class="social-icon">WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Endereço físico</h3>
+                    <p>Rua Aromas Florais, 123<br>
+                    Jardim das Fragrâncias<br>
+                    São Paulo/SP - CEP: 01234-567</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sweet Smell - Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- Link Icon -->
+        <link rel="shortcut icon" href="Img/Logo Estética Minimalista Dourado e Branco.png" type="image/x-icon">
+        <link href="static/styles.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/carrosel_about.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sobre Nós</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.addEventListener('scroll', () => {
+                    let navBar = document.querySelector('nav');
+                    let logoImage = document.querySelector('#about-page-navbar img');
+                    let navLinks = document.querySelectorAll('#about-page-nav-text a');
+
+                    if (window.scrollY > 0) {
+                        navBar.style.backgroundColor = "white";
+                        navBar.style['boxShadow'] = '0 2px 10px rgba(0, 0, 0, 0.05)';
+                        // logoImage.src = 'Img/Logo navbar.png';
+                        // logoImage.width = '190';
+                        for (let i = 0; i < navLinks.length; i++) {
+                            navLinks[i].style.color = 'rgb(50, 50, 50)';
+                        }
+                    }
+
+                    else {
+                        navBar.style.backgroundColor = "transparent";
+                        navBar.style['boxShadow'] = 'none';
+                        logoImage.src = 'Img/logo_navbar_2-removebg-preview.png';
+                        logoImage.width = '100'
+                        for (let i = 0; i < navLinks.length; i++) {
+                            navLinks[i].style.color = 'rgb(255, 255, 255)';
+                        }
+                    }
+                })
+            })
+        </script>
+    </head>
+    <body id="about-page">
+        <nav>
+            <div class="navbar">
+                <div>
+                    <a href="index.html">       
+                        <img src="Img/logo_navbar_2-removebg-preview.png" width="100" height="100" alt="Sweet Smell Logo">
+                    </a>
+                </div>
+                <button class="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <ul class="navbar-links">
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="sobre.html">SOBRE</a></li>
+                        <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping fa-xl"></i> <span class="cart-count">0</span></a></li>
+                        <li class="account"><a href="register.html"><i class="fa-solid fa-circle-user fa-xl"></i></a></li>
+                        <li class="account"><a href="fale.html"><i class="fa-solid fa-phone"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="about-page-banner">
+            <div id="about-gradient-banner">
+                <div id="about-banner-content">
+                    <h1>Sobre Nós</h1>
+                    <h2>Vendemos velas aromáticas e produtos ambientais de excelente qualidade</h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="about-page-content">
+            <div style="display: flex; justify-content: space-between; flex-direction: row; place-items: center; 
+            padding: 5px; padding-left: 90px; padding-right: 90px;">
+                <div style="margin-right: 50px; width: 70%; text-align: center; margin: auto; ">
+                    <h1 style="color: rgb(50, 50, 50); font-size: 40px; font-weight: 500; margin-bottom: 30px">Quem Somos</h1>
+                    <div class="border-line" style="margin: auto"></div>
+                    <div style="margin-top: 1em">
+                        <br>
+                        <p class="about-text" style="text-align: center">
+                           Somos uma empresa que busca inovar momentos de lazer com aromas únicos, trazendo sensações sem igual e ideal para cada situação específica de cada ambiente.
+                           Priorizamos bem-estar dos nossos clientes e a qualidade dos produtos. 
+                        
+                        </p>
+                        <br>
+                        <p class="about-text" style="text-align: center">
+                            Dedicamos nosso trabalho na melhor qualidade de vida dos nossos clientes. Visamos ir além de produtos vendidos, queremos acompanhar essa jornada do cliente dando total apoio e segurança ao consumidor. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="socios-carousel-container">
+                <h1 style="color: rgb(50, 50, 50); font-size: 40px; font-weight: 500; margin-bottom: 10px">Sócios</h1>
+                <div style="font-size: 20px; font-style: italic; margin-bottom: 30px; color: rgb(100, 100, 100)">Equipe de funcionários</div>
+            
+                <div class="socios-carousel">
+                    <div class="socios-slide">
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Luccas.jpeg" alt="Luccas Leite">
+                            </div>
+                            <p class="socios-name">Luccas Leite</p>
+                            <p class="socios-role">CEO</p>
+                        </div>
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Renan.jpeg" alt="Renan Castro">
+                            </div>
+                            <p class="socios-name">Renan Castro</p>
+                            <p class="socios-role">COO</p>
+                        </div>
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Larissa.jpeg" alt="Larissa Santiago">
+                            </div>
+                            <p class="socios-name">Larissa Santiago</p>
+                            <p class="socios-role">Diretora de RH</p>
+                        </div>
+
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Arthur.jpeg" alt="Arthur Coutinho">
+                            </div>
+                            <p class="socios-name">Arthur Coutinho</p>
+                            <p class="socios-role">Gerente de Logistica</p>
+                        </div>
+
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Sofia.jpeg" alt="Sofia Baldoino">
+                            </div>
+                            <p class="socios-name">Sofia Baldoino</p>
+                            <p class="socios-role">Gerente de Produção</p>
+                        </div>
+
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Camille.jpeg" alt="Camille Garcia">
+                            </div>
+                            <p class="socios-name">Camille Garcia</p>
+                            <p class="socios-role">Diretora Financeira</p>
+                        </div>
+
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Rafaella.jpeg" alt="Rafaella Silva">
+                            </div>
+                            <p class="socios-name">Rafaella Silva</p>
+                            <p class="socios-role">Diretora de de Marketing</p>
+                        </div>
+
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Yasmin.jpeg" alt="Yasmin Helena">
+                            </div>
+                            <p class="socios-name">Yasmin Helena</p>
+                            <p class="socios-role">Gerente de Design</p>
+                        </div>
+
+                        <div class="socios-card">
+                            <div class="socios-img">
+                                <img src="Img/cargos/Gabriel.jpeg" alt="Gabriel Santos">
+                            </div>
+                            <p class="socios-name">Gabriel Santos</p>
+                            <p class="socios-role">Diretor de TI</p>
+                        </div>
+                        
+                    </div>
+                    <button class="socios-btn prev">&#10094;</button>
+                    <button class="socios-btn next">&#10095;</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/carrosel_about.js"></script>
+        <script src="js/responsivo.js"></script>
+    </body>
+</html>
