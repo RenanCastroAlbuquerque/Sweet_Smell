@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background-color: #fefcf9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-top: 10px;
+    color: #806600;
+}
+
+.subtitle {
+    color: #9c7c38;
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.contact-form, .contact-info {
+    flex: 1;
+    min-width: 300px;
+    background: #fffefa;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    color: #9c7c38;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    font-size: 1.2em;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #806600;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #fffdf6;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #9c7c38;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.Curriculo button {
+    background-color: transparent;
+}
+
+.submit-btn {
+    background-color: #9c7c38;
+    color: white;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background-color: #806600;
+}
+
+.info-card {
+    background: #fffdf6;
+    border-left: 4px solid #9c7c38;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 0 6px 6px 0;
+}
+
+.info-card h3 {
+    color: #806600;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-icon {
+    background-color: #f0e6d2;
+    color: #806600;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.social-icon:hover {
+    background-color: #9c7c38;
+    color: white;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background-color: #fefcf9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-top: 10px;
+    color: #806600; /* dourado escuro */
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fffefa;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+section h2 {
+    color: #9c7c38;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+section p, section ul {
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #777;
+    font-size: 0.9rem;
+}
