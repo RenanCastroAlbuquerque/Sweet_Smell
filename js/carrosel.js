@@ -1,103 +1,110 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Seleciona os elementos do carrossel
+document.addEventListener('DOMContentLoaded', function () {
     const carrossel = document.getElementById('product-carousel');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
-    const produtos = document.querySelectorAll('.produto');
-    
-    // Configurações do carrossel
+    const produtos = Array.from(document.querySelectorAll('.produto'));
+
     const itemWidth = produtos[0].offsetWidth + 25; // Largura do item + gap
-    let currentPosition = 0;
-    let maxVisibleItems = 4; // Quantidade padrão de itens visíveis
+    let maxVisibleItems = 4;
     let autoScrollInterval;
-    
-    // Calcula a posição máxima baseada na largura da tela
-    function calculateMaxPosition() {
-        const containerWidth = carrossel.parentElement.offsetWidth;
-        maxVisibleItems = Math.max(1, Math.floor(containerWidth / itemWidth));
-        return -((produtos.length - maxVisibleItems) * itemWidth);
+
+    // Clona itens para criar o loop infinito
+    function cloneItems() {
+        const clonesStart = produtos.slice(-maxVisibleItems).map(item => item.cloneNode(true));
+        const clonesEnd = produtos.slice(0, maxVisibleItems).map(item => item.cloneNode(true));
+        
+        clonesStart.forEach(clone => carrossel.insertBefore(clone, carrossel.firstChild));
+        clonesEnd.forEach(clone => carrossel.appendChild(clone));
     }
-    
-    let maxPosition = calculateMaxPosition();
-    
-    // Função para mover o carrossel
-    function moveCarousel(direction) {
-        if (direction === 'prev') {
-            currentPosition = Math.min(currentPosition + itemWidth, 0);
+
+    cloneItems();
+
+    const allItems = carrossel.querySelectorAll('.produto');
+    const totalItems = allItems.length;
+    let currentIndex = maxVisibleItems; // Começa no primeiro item "real"
+    let maxPosition;
+
+    function updateItemWidth() {
+        maxVisibleItems = Math.max(1, Math.floor(carrossel.parentElement.offsetWidth / itemWidth));
+        maxPosition = totalItems - maxVisibleItems;
+    }
+
+    updateItemWidth();
+
+    function updatePosition(withTransition = true) {
+        if (!withTransition) {
+            carrossel.style.transition = 'none';
         } else {
-            currentPosition = Math.max(currentPosition - itemWidth, maxPosition);
+            carrossel.style.transition = 'transform 0.5s ease';
         }
-        carrossel.style.transform = `translateX(${currentPosition}px)`;
+        carrossel.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
     }
-    
-    // Event listeners para os botões
-    prevBtn.addEventListener('click', function() {
+
+    function moveCarousel(direction) {
+        currentIndex += (direction === 'next') ? 1 : -1;
+        updatePosition(true);
+
+        // Delay para esperar a transição terminar
+        setTimeout(() => {
+            if (currentIndex >= totalItems - maxVisibleItems) {
+                currentIndex = maxVisibleItems;
+                updatePosition(false); // Volta sem transição
+            } else if (currentIndex < maxVisibleItems) {
+                currentIndex = totalItems - (1 * maxVisibleItems);
+                updatePosition(false); // Vai para o fim sem transição
+            }
+        }, 510);
+    }
+
+    prevBtn.addEventListener('click', function () {
         clearInterval(autoScrollInterval);
         moveCarousel('prev');
     });
-    
-    nextBtn.addEventListener('click', function() {
+
+    nextBtn.addEventListener('click', function () {
         clearInterval(autoScrollInterval);
         moveCarousel('next');
     });
-    
-    // Toque para dispositivos móveis
+
+    // Swipe para dispositivos móveis
     let touchStartX = 0;
     let touchEndX = 0;
-    
-    carrossel.addEventListener('touchstart', function(e) {
+
+    carrossel.addEventListener('touchstart', function (e) {
         touchStartX = e.changedTouches[0].screenX;
         clearInterval(autoScrollInterval);
-    }, {passive: true});
-    
-    carrossel.addEventListener('touchend', function(e) {
+    }, { passive: true });
+
+    carrossel.addEventListener('touchend', function (e) {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
-    }, {passive: true});
-    
+    }, { passive: true });
+
     function handleSwipe() {
-        if (touchEndX < touchStartX - 50) { // Limiar de 50px para considerar como swipe
+        if (touchEndX < touchStartX - 50) {
             moveCarousel('next');
         } else if (touchEndX > touchStartX + 50) {
             moveCarousel('prev');
         }
     }
-    
-    // Inicia rotação automática
+
+    // Auto rotação
     function startAutoScroll() {
-        autoScrollInterval = setInterval(function() {
-            if (currentPosition <= maxPosition) {
-                // Volta para o primeiro item quando chega no final
-                currentPosition = 0;
-                carrossel.style.transition = 'none';
-                carrossel.style.transform = `translateX(${currentPosition}px)`;
-                
-                // Força um reflow para aplicar a mudança sem transição
-                void carrossel.offsetWidth;
-                
-                // Restaura a transição
-                carrossel.style.transition = 'transform 0.5s ease';
-            } else {
-                moveCarousel('next');
-            }
-        }, 3000); // Muda a cada 3 segundos
+        autoScrollInterval = setInterval(() => {
+            moveCarousel('next');
+        }, 3000);
     }
-    
-    // Pausa a rotação quando o mouse está sobre o carrossel
-    carrossel.addEventListener('mouseenter', function() {
-        clearInterval(autoScrollInterval);
-    });
-    
+
+    carrossel.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
     carrossel.addEventListener('mouseleave', startAutoScroll);
-    
-    // Redimensionamento da janela
-    window.addEventListener('resize', function() {
-        maxPosition = calculateMaxPosition();
-        // Ajusta a posição atual se necessário
-        currentPosition = Math.max(currentPosition, maxPosition);
-        carrossel.style.transform = `translateX(${currentPosition}px)`;
+
+    // Redimensionamento
+    window.addEventListener('resize', () => {
+        updateItemWidth();
+        updatePosition(false);
     });
-    
-    // Inicia o carrossel
+
+    // Inicializa
+    updatePosition(false);
     startAutoScroll();
 });
