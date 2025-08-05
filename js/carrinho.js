@@ -1,148 +1,110 @@
-/**
- * Função para adicionar itens ao carrinho
- * @param {Object} produto - O produto a ser adicionado
- * @param {string} produto.nome - Nome do produto
- * @param {number} produto.preco - Preço do produto (em float)
- * @param {number} produto.quantidade - Quantidade do produto
- * @param {string} produto.imagem - URL da imagem do produto
- * @param {string} [produto.sku] - Código SKU do produto (opcional)
- */
-function adicionarAoCarrinho(produto) {
-    try {
-        // Recupera o carrinho do localStorage ou inicializa vazio
-        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        
-        // Verifica se o produto já está no carrinho (por SKU ou nome)
-        const produtoExistenteIndex = carrinho.findIndex(item => 
-            (produto.sku && item.sku === produto.sku) || item.nome === produto.nome
-        );
+document.addEventListener('DOMContentLoaded', function () {
+    const carrossel = document.getElementById('product-carousel');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const produtos = Array.from(document.querySelectorAll('.produto'));
 
-        if (produtoExistenteIndex !== -1) {
-            // Atualiza a quantidade se o produto já existir
-            carrinho[produtoExistenteIndex].quantidade += produto.quantidade;
-            
-            // Limita a quantidade máxima por produto
-            if (carrinho[produtoExistenteIndex].quantidade > 10) {
-                carrinho[produtoExistenteIndex].quantidade = 10;
-                throw new Error('Quantidade máxima por produto é 10');
-            }
+    const itemWidth = produtos[0].offsetWidth + 25; // Largura do item + gap
+    let maxVisibleItems = 4;
+    let autoScrollInterval;
+
+    // Clona itens para criar o loop infinito
+    function cloneItems() {
+        const clonesStart = produtos.slice(-maxVisibleItems).map(item => item.cloneNode(true));
+        const clonesEnd = produtos.slice(0, maxVisibleItems).map(item => item.cloneNode(true));
+        
+        clonesStart.forEach(clone => carrossel.insertBefore(clone, carrossel.firstChild));
+        clonesEnd.forEach(clone => carrossel.appendChild(clone));
+    }
+
+    cloneItems();
+
+    const allItems = carrossel.querySelectorAll('.produto');
+    const totalItems = allItems.length;
+    let currentIndex = maxVisibleItems; // Começa no primeiro item "real"
+    let maxPosition;
+
+    function updateItemWidth() {
+        maxVisibleItems = Math.max(1, Math.floor(carrossel.parentElement.offsetWidth / itemWidth));
+        maxPosition = totalItems - maxVisibleItems;
+    }
+
+    updateItemWidth();
+
+    function updatePosition(withTransition = true) {
+        if (!withTransition) {
+            carrossel.style.transition = 'none';
         } else {
-            // Adiciona novo produto ao carrinho
-            carrinho.push({
-                nome: produto.nome,
-                preco: parseFloat(produto.preco),
-                quantidade: produto.quantidade,
-                imagem: produto.imagem,
-                sku: produto.sku || 'SEM-SKU'
-            });
+            carrossel.style.transition = 'transform 0.5s ease';
         }
-
-        // Salva o carrinho atualizado no localStorage
-        localStorage.setItem('carrinho', JSON.stringify(carrho));
-        
-        // Atualiza o contador do carrinho em todas as páginas
-        atualizarContadorCarrinho();
-        
-        return true;
-    } catch (error) {
-        console.error('Erro ao adicionar ao carrinho:', error);
-        return false;
+        carrossel.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
     }
-}
 
-/**
- * Atualiza o contador de itens no carrinho
- */
-function atualizarContadorCarrinho() {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
-    
-    // Atualiza todos os elementos com a classe .cart-count
-    document.querySelectorAll('.cart-count').forEach(element => {
-        element.textContent = totalItens;
+    function moveCarousel(direction) {
+        currentIndex += (direction === 'next') ? 1 : -1;
+        updatePosition(true);
+
+        // Delay para esperar a transição terminar
+        setTimeout(() => {
+            if (currentIndex >= totalItems - maxVisibleItems) {
+                currentIndex = maxVisibleItems;
+                updatePosition(false); // Volta sem transição
+            } else if (currentIndex < maxVisibleItems) {
+                currentIndex = totalItems - (1 * maxVisibleItems);
+                updatePosition(false); // Vai para o fim sem transição
+            }
+        }, 510);
+    }
+
+    prevBtn.addEventListener('click', function () {
+        clearInterval(autoScrollInterval);
+        moveCarousel('prev');
     });
-}
 
-/**
- * Remove um item do carrinho
- * @param {number} index - Índice do item a ser removido
- */
-function removerItemCarrinho(index) {
-    try {
-        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        carrinho.splice(index, 1);
-        localStorage.setItem('carrinho', JSON.stringify(carrinho));
-        atualizarContadorCarrinho();
-        return true;
-    } catch (error) {
-        console.error('Erro ao remover item:', error);
-        return false;
-    }
-}
+    nextBtn.addEventListener('click', function () {
+        clearInterval(autoScrollInterval);
+        moveCarousel('next');
+    });
 
-/**
- * Atualiza a quantidade de um item no carrinho
- * @param {number} index - Índice do item
- * @param {number} novaQuantidade - Nova quantidade
- */
-function atualizarQuantidadeItem(index, novaQuantidade) {
-    try {
-        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        
-        // Valida a nova quantidade
-        novaQuantidade = parseInt(novaQuantidade);
-        if (isNaN(novaQuantidade)) return false;
-        
-        if (novaQuantidade <= 0) {
-            // Remove o item se a quantidade for zero ou negativa
-            return removerItemCarrinho(index);
+    // Swipe para dispositivos móveis
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carrossel.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(autoScrollInterval);
+    }, { passive: true });
+
+    carrossel.addEventListener('touchend', function (e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+            moveCarousel('next');
+        } else if (touchEndX > touchStartX + 50) {
+            moveCarousel('prev');
         }
-        
-        // Limita a quantidade máxima por produto
-        if (novaQuantidade > 10) {
-            novaQuantidade = 10;
-        }
-        
-        carrinho[index].quantidade = novaQuantidade;
-        localStorage.setItem('carrinho', JSON.stringify(carrinho));
-        atualizarContadorCarrinho();
-        return true;
-    } catch (error) {
-        console.error('Erro ao atualizar quantidade:', error);
-        return false;
     }
-}
 
-/**
- * Calcula o subtotal do carrinho
- * @returns {number} Subtotal do carrinho
- */
-function calcularSubtotal() {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    return carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
-}
+    // Auto rotação
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(() => {
+            moveCarousel('next');
+        }, 3000);
+    }
 
-/**
- * Limpa todo o carrinho
- */
-function limparCarrinho() {
-    localStorage.removeItem('carrinho');
-    atualizarContadorCarrinho();
-}
+    carrossel.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
+    carrossel.addEventListener('mouseleave', startAutoScroll);
 
-// Atualiza o contador do carrinho quando a página carrega
-document.addEventListener('DOMContentLoaded', function() {
-    atualizarContadorCarrinho();
+    // Redimensionamento
+    window.addEventListener('resize', () => {
+        updateItemWidth();
+        updatePosition(false);
+    });
+
+    // Inicializa
+    updatePosition(false);
+    startAutoScroll();
 });
-
-// Exporta as funções para uso em outros arquivos (se usando módulos)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        adicionarAoCarrinho,
-        removerItemCarrinho,
-        atualizarQuantidadeItem,
-        calcularSubtotal,
-        limparCarrinho,
-        atualizarContadorCarrinho
-    };
-}
